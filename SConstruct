@@ -1,10 +1,12 @@
 #!/usr/bin/env python
+import glob
 import os
 import sys
-import glob
+from tty import CC
 
 # Get the environment variables
 env = SConscript("godot-cpp/SConstruct")
+
 
 # Find all Hunspell source files
 def find_hunspell_sources():
@@ -13,22 +15,20 @@ def find_hunspell_sources():
         "hunspell/src/hunspell/*.cxx",
         "hunspell/src/*.cxx",
         "hunspell/src/hunspell/*.cpp",
-        "hunspell/src/*.cpp"
+        "hunspell/src/*.cpp",
     ]
-    
+
     all_sources = []
     for path in potential_paths:
         found_sources = glob.glob(path)
         all_sources.extend(found_sources)
-    
+
     print("Found Hunspell sources:", all_sources)
     return all_sources
 
+
 # Add Hunspell include directories
-potential_include_paths = [
-    "hunspell/src/hunspell",
-    "hunspell/src"
-]
+potential_include_paths = ["hunspell/src/hunspell", "hunspell/src"]
 
 for path in potential_include_paths:
     if os.path.exists(path):
@@ -50,11 +50,16 @@ if env["platform"] == "linux":
     # Enable exceptions
     env.Append(CCFLAGS=["-DHUNSPELL_STATIC"])
     # Static linking for Hunspell
-    
+
 # Adjust flags for macOS
 if env["platform"] == "macos":
     env.Append(CCFLAGS=["-fexceptions"])
     env.Append(CCFLAGS=["-DHUNSPELL_STATIC"])
+
+# for web assembly
+if env["platform"] == "web":
+    # disable exceptions
+    env.Append(CXXFLAGS=["-fno-exceptions"])
 
 # Define our sources
 sources = Glob("src/*.cpp")
