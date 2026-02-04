@@ -12,8 +12,8 @@ linux.release.x86_64 = "res://addons/hunspell/bin/libhunspell.linux.template_rel
 macos.debug = "res://addons/hunspell/bin/libhunspell.macos.template_debug.universal.dylib"
 macos.release = "res://addons/hunspell/bin/libhunspell.macos.template_release.universal.dylib"
 web.debug.wasm32 = "res://addons/hunspell/bin/libhunspell.web.template_debug.wasm32.wasm"
+web.release.wasm32 = "res://addons/hunspell/bin/libhunspell.web.template_release.wasm32.wasm"
 android.debug.arm64 = "res://addons/hunspell/bin/libhunspell.android.template_debug.arm64.so"
-
 
 [dependencies]
 
@@ -25,3 +25,5 @@ macos.debug = {}
 macos.release = {}
 web.debug.wasm32 = {}
 web.release.wasm32 = {}
+android.debug = {}
+android.release = {}
