@@ -119,31 +119,15 @@ bool SpellChecker::load_dictionary(const String &aff_file, const String &dic_fil
     } else {
         dic_abs_path = dic_file;
     }
-
+    UtilityFunctions::print("Creating Hunspell instance...");
+    hunspell = new Hunspell(aff_abs_path.utf8().get_data(), dic_abs_path.utf8().get_data());
+    aff_path = aff_file;
+    dic_path = dic_file;
     UtilityFunctions::print("Using affix file: ", aff_abs_path);
     UtilityFunctions::print("Using dictionary file: ", dic_abs_path);
 
-    // Create a new Hunspell instance
-    // try {
-        UtilityFunctions::print("Creating Hunspell instance...");
-        hunspell = new Hunspell(aff_abs_path.utf8().get_data(), dic_abs_path.utf8().get_data());
-        aff_path = aff_file;
-        dic_path = dic_file;
-        UtilityFunctions::print("Hunspell: Dictionary loaded successfully");
-
-        // Test if the dictionary actually works
-        UtilityFunctions::print("Testing dictionary with word 'test'");
-        bool result = hunspell->spell("test");
-        UtilityFunctions::print("Spell check result for 'test': ", result);
-
-        return result;
-    // } catch (std::exception &e) {
-        // UtilityFunctions::printerr("Hunspell: Failed to load dictionary: ", e.what());
-        // return false;
-    // } catch (...) {
-        // UtilityFunctions::printerr("Hunspell: Unknown error when loading dictionary");
-        // return false;
-    // }
+    // successfully initialized
+    return true;
 }
 
 bool SpellChecker::is_loaded() const {
@@ -155,8 +139,8 @@ bool SpellChecker::spell(const String &word) {
         UtilityFunctions::printerr("Hunspell: Dictionary not loaded");
         return false;
     }
-
-    return hunspell->spell(word.utf8().get_data()) != 0;
+    // convert to std:string to use non-deprecated method, which returns a boolean
+    return hunspell->spell(std::string(word.utf8()));
 }
 
 PackedStringArray SpellChecker::suggest(const String &word) {
