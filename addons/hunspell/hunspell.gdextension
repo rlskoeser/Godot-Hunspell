@@ -14,6 +14,7 @@ macos.release = "res://addons/hunspell/bin/libhunspell.macos.template_release.un
 web.debug.wasm32 = "res://addons/hunspell/bin/libhunspell.web.template_debug.wasm32.wasm"
 web.release.wasm32 = "res://addons/hunspell/bin/libhunspell.web.template_release.wasm32.wasm"
 android.debug.arm64 = "res://addons/hunspell/bin/libhunspell.android.template_debug.arm64.so"
+android.release.arm64 = "res://addons/hunspell/bin/libhunspell.android.template_release.arm64.so"
 
 [dependencies]
 
